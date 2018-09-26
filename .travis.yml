@@ -1,10 +1,16 @@
 ---
 language: python
-services: docker
+services:
+  - docker
+sudo: required
 
 env:
   global:
     - ROLE_NAME: foxpass
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
 
 install:
   # Install test dependencies.
