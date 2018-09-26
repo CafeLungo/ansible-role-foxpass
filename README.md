@@ -1,5 +1,7 @@
-Role Name
+CafeLungo.Foxpass
 =========
+
+[![Build Status](https://travis-ci.org/CafeLungo/ansible-role-foxpass.svg?branch=master)](https://travis-ci.org/CafeLungo/ansible-role-foxpass)
 
 Installs FoxPass on a machine
 
