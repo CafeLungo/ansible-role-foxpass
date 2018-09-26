@@ -1,0 +1,7 @@
+---
+# defaults file for ansible-role-foxpass
+# Sample vars from foxpass docs: https://foxpass.readme.io/docs/ubuntu-1604
+foxpass_base_dn: "dc=example,dc=com"
+foxpass_bind_user: "linux"
+foxpass_bind_pw: "efGHbD3aFq"
+foxpass_api_key: "5GC3NRI5goRBAGkrlsxzYedg0r8HPAO7"
