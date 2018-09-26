@@ -4,22 +4,12 @@ services:
   - docker
 sudo: required
 
-env:
-  global:
-    - ROLE_NAME: foxpass
-
 before_install:
   - sudo apt-get -qq update
 
 install:
   # Install test dependencies.
   - pip install molecule docker ansible
-
-before_script:
-  # Use actual Ansible Galaxy role name for the project directory.
-  - cd ../
-  - mv ansible-role-$ROLE_NAME CafeLungo.$ROLE_NAME
-  - cd CafeLungo.$ROLE_NAME
 
 script:
   # Run tests.
