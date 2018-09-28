@@ -3,13 +3,13 @@ CafeLungo.foxpass
 
 [![Build Status](https://travis-ci.org/CafeLungo/ansible-role-foxpass.svg?branch=master)](https://travis-ci.org/CafeLungo/ansible-role-foxpass)
 
-Installs FoxPass on a machine
+Installs FoxPass on a machine, with SUDOers support
 
 Requirements
 ------------
 
-Ansible 2.5+
-Molecule 2.18.1+
+* Ansible 2.5+
+* Molecule 2.18.1+
 
 Role Variables
 --------------
