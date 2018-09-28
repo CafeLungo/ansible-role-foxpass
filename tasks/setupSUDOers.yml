@@ -1,0 +1,8 @@
+---
+- name: Setup sudo-ldap (Ubuntu)
+  include: setupSUDOers-ubuntu.yml
+  when: ansible_facts['distribution'] == 'Ubuntu'
+
+- name: Setup openldap and sssd (CentOS)
+  include: setupSUDOers-centos.yml
+  when: ansible_facts['distribution'] == 'CentOS'

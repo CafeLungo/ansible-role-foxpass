@@ -1,0 +1,20 @@
+---
+- name: Set root password
+  user:
+    name: root
+    password: "{{ foxpass_root_password_hash }}"
+
+- name: Install sudo-ldap package
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - sudo-ldap
+
+- name: Configure sudo-ldap
+  template:
+    src: etc/sudo-ldap.conf.j2
+    dest: /etc/sudo-ldap.conf
+    mode: "u=rw,g=r,o=r"
+    owner: root
+    group: root

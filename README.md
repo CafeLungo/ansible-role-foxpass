@@ -1,4 +1,4 @@
-CafeLungo.Foxpass
+CafeLungo.foxpass
 =========
 
 [![Build Status](https://travis-ci.org/CafeLungo/ansible-role-foxpass.svg?branch=master)](https://travis-ci.org/CafeLungo/ansible-role-foxpass)
@@ -19,6 +19,8 @@ foxpass_base_dn: Base DN
 foxpass_bind_user: Bind User
 foxpass_bind_pw: Bind Password
 foxpass_api_key: FoxPass API Key
+foxpass_setup_SUDOers: Whether or not to setup SUDOers support (an add-on feature for FoxPass)
+foxpass_root_password_hash: Root password hash for ubuntu (Required to install sudo-ldap) `mkpasswd -m sha-512`
 ```
 
 Dependencies
@@ -38,6 +40,8 @@ Example Playbook
     foxpass_bind_user: "linux"
     foxpass_bind_pw: "efGHbD3aFq"
     foxpass_api_key: "5GC3NRI5goRBAGkrlsxzYedg0r8HPAO7"
+    foxpass_setup_SUDOers: true
+    foxpass_root_password_hash: "$6$w0Z8CUwMTP.S$iGI0IqZzCnaAqD2EckxoIqtekShPilVD8KbrzMmmz8ZNJaZNgFywMtq3ArYxoL4hvAK5lLw3zUv4RxxaaKAhK."
   roles:
     - role: CafeLungo.foxpass
 ```

@@ -1,0 +1,25 @@
+---
+- name: Configure openldap conf
+  template:
+    src: etc/openldap/ldap.conf.j2
+    dest: /etc/openldap/ldap.conf
+    mode: "u=rw,g=r,o=r"
+    owner: root
+    group: root
+  notify: restart sssd
+
+- name: Configure sssd
+  template:
+    src: etc/sssd/sssd.conf.j2
+    dest: /etc/sssd/sssd.conf
+    mode: "u=rw"
+    owner: root
+    group: root
+  notify: restart sssd
+
+- name: Configure nsswitch.conf
+  lineinfile:
+    path: /etc/nsswitch.conf
+    state: present
+    line: 'sudoers: files sss'
+  notify: restart sssd

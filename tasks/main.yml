@@ -53,53 +53,6 @@
   args:
     creates: /etc/sudoers.d/95-foxpass-sudo
 
-- name: Setup sudo-ldap (Ubuntu)
-  block:
-    - name: Set root password
-      user:
-        name: root
-        password: "{{ foxpass_root_password_hash }}"
-
-    - name: Install sudo-ldap package
-      package:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - sudo-ldap
-
-    - name: Configure sudo-ldap
-      template:
-        src: etc/sudo-ldap.conf.j2
-        dest: /etc/sudo-ldap.conf
-        mode: "u=rw,g=r,o=r"
-        owner: root
-        group: root
-  when: ansible_facts['distribution'] == 'Ubuntu'
-
-- name: Setup openldap and sssd (CentOS)
-  block:
-    - name: Configure openldap conf
-      template:
-        src: etc/openldap/ldap.conf.j2
-        dest: /etc/openldap/ldap.conf
-        mode: "u=rw,g=r,o=r"
-        owner: root
-        group: root
-      notify: restart sssd
-
-    - name: Configure sssd
-      template:
-        src: etc/sssd/sssd.conf.j2
-        dest: /etc/sssd/sssd.conf
-        mode: "u=rw"
-        owner: root
-        group: root
-      notify: restart sssd
-
-    - name: Configure nsswitch.conf
-      lineinfile:
-        path: /etc/nsswitch.conf
-        state: present
-        line: 'sudoers: files sss'
-      notify: restart sssd
-  when: ansible_facts['distribution'] == 'CentOS'
+- name: "Setup SUDOers support (optional: {{ foxpass_setup_SUDOers }})"
+  include: setupSUDOers.yml
+  when: foxpass_setup_SUDOers
