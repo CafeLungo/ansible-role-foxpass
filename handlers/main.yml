@@ -1,2 +1,8 @@
 ---
 # handlers file for ansible-role-foxpass
+- name: restart sssd
+  service:
+    name: sssd
+    state: restarted
+  ignore_errors: true  # needed for docker instances :-/
+  when: ansible_facts['distribution'] == 'CentOS'

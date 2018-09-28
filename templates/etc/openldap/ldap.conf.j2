@@ -1,0 +1,23 @@
+#
+# LDAP Defaults
+#
+
+# See ldap.conf(5) for details
+# This file should be world readable but not world writable.
+
+#BASE	dc=example,dc=com
+#URI	ldap://ldap.example.com ldap://ldap-master.example.com:666
+URI         ldaps://ldap.foxpass.com
+
+URI ldaps://ldap.foxpass.com
+BASE {{ foxpass_base_dn }}
+SUDOERS_BASE ou=SUDOers,{{ foxpass_base_dn }}
+
+#SIZELIMIT	12
+#TIMELIMIT	15
+#DEREF		never
+
+TLS_CACERTDIR /etc/openldap/cacerts
+
+# Turning this off breaks GSSAPI used with krb5 when rdns = false
+SASL_NOCANON	on

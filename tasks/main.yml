@@ -2,19 +2,19 @@
 # tasks file for ansible-role-foxpass
 - name: Set OS Version (CentOS)
   set_fact:
-    os_version: "{{ ansible_facts['distribution_major_version'] }}"
+    os_version: "{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_major_version'] }}"
   when: ansible_facts['distribution'] == 'CentOS'
 
 - name: Set OS Version (Ubuntu)
   set_fact:
-    os_version: "{{ ansible_facts['distribution_version'] }}"
+    os_version: "{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_version'] }}"
   when: ansible_facts['distribution'] == 'Ubuntu'
 
 - name: Download FoxPass setup script
   get_url:
-    url: "https://raw.githubusercontent.com/foxpass/foxpass-setup/master/linux/{{ ansible_facts['distribution'] | lower }}/{{ os_version }}/foxpass_setup.py"
+    url: "https://raw.githubusercontent.com/foxpass/foxpass-setup/master/linux/{{ os_version }}/foxpass_setup.py"
     dest: /tmp/foxpass_setup.py
-    mode: 0755
+    mode: 0700
 
 - name: Install CentOS specific packages
   package:
@@ -49,7 +49,57 @@
     - urllib3
 
 - name: Run FoxPass setup script
-  command: "python foxpass_setup.py --base-dn {{ foxpass_base_dn }} --bind-user {{ foxpass_bind_user }} --bind-pw {{ foxpass_bind_pw }} --api-key {{ foxpass_api_key }}"
+  command: "python /tmp/foxpass_setup.py --base-dn {{ foxpass_base_dn }} --bind-user {{ foxpass_bind_user }} --bind-pw {{ foxpass_bind_pw }} --api-key {{ foxpass_api_key }}"
   args:
-    chdir: /tmp/
     creates: /etc/sudoers.d/95-foxpass-sudo
+
+- name: Setup sudo-ldap (Ubuntu)
+  block:
+    - name: Set root password
+      user:
+        name: root
+        password: "{{ foxpass_root_password_hash }}"
+
+    - name: Install sudo-ldap package
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - sudo-ldap
+
+    - name: Configure sudo-ldap
+      template:
+        src: etc/sudo-ldap.conf.j2
+        dest: /etc/sudo-ldap.conf
+        mode: "u=rw,g=r,o=r"
+        owner: root
+        group: root
+  when: ansible_facts['distribution'] == 'Ubuntu'
+
+- name: Setup openldap and sssd (CentOS)
+  block:
+    - name: Configure openldap conf
+      template:
+        src: etc/openldap/ldap.conf.j2
+        dest: /etc/openldap/ldap.conf
+        mode: "u=rw,g=r,o=r"
+        owner: root
+        group: root
+      notify: restart sssd
+
+    - name: Configure sssd
+      template:
+        src: etc/sssd/sssd.conf.j2
+        dest: /etc/sssd/sssd.conf
+        mode: "u=rw"
+        owner: root
+        group: root
+      notify: restart sssd
+
+    - name: Configure nsswitch.conf
+      lineinfile:
+        path: /etc/nsswitch.conf
+        state: present
+        line: 'sudoers: files sss'
+      notify: restart sssd
+  when: ansible_facts['distribution'] == 'CentOS'

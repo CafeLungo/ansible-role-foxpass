@@ -5,3 +5,5 @@ foxpass_base_dn: "dc=example,dc=com"
 foxpass_bind_user: "linux"
 foxpass_bind_pw: "efGHbD3aFq"
 foxpass_api_key: "5GC3NRI5goRBAGkrlsxzYedg0r8HPAO7"
+
+foxpass_root_password_hash: "$6$w0Z8CUwMTP.S$iGI0IqZzCnaAqD2EckxoIqtekShPilVD8KbrzMmmz8ZNJaZNgFywMtq3ArYxoL4hvAK5lLw3zUv4RxxaaKAhK."  # supersecure

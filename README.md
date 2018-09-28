@@ -8,8 +8,8 @@ Installs FoxPass on a machine
 Requirements
 ------------
 
-Ansible
-Molecule
+Ansible 2.5+
+Molecule 2.18.1+
 
 Role Variables
 --------------
@@ -42,8 +42,15 @@ Example Playbook
     - role: CafeLungo.foxpass
 ```
 
+Testing and Development
+-----------------------
+
+* Run `molecule test` to run the playbook against supported platforms, and run tests
+* Run `molecule create` to create all the supported platforms for development purposes
+* Run `molecule converge` to run the role against the supported platforms created above
+* Run `docker ps` to view the running platforms, and `docker exec -it <name of instance> /bin/bash` to connect to it to check things
+
 License
 -------
 
 BSD
-

@@ -1,0 +1,38 @@
+[domain/default]
+
+autofs_provider = ldap
+cache_credentials = True
+ldap_search_base = {{ foxpass_base_dn }}
+id_provider = ldap
+auth_provider = ldap
+chpass_provider = ldap
+ldap_uri = ldaps://ldap.foxpass.com
+ldap_id_use_start_tls = False
+ldap_tls_reqcert = demand
+ldap_default_bind_dn = cn={{ foxpass_bind_user }},{{ foxpass_base_dn }}
+ldap_tls_cacert = /etc/ssl/certs/ca-bundle.crt
+enumerate = True
+ldap_default_authtok = {{ foxpass_bind_pw }}
+[sssd]
+services = nss, pam, autofs, sudo
+
+domains = default
+[nss]
+homedir_substring = /home
+
+[pam]
+
+[sudo]
+timed = true
+
+[autofs]
+
+[ssh]
+
+[pac]
+
+[ifp]
+
+[secrets]
+
+[session_recording]

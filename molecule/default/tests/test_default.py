@@ -12,3 +12,11 @@ def test_hosts_file(host):
     assert f.exists
     assert f.user == 'root'
     assert f.group == 'root'
+
+
+def test_foxpass_sudoers_file(host):
+    f = host.file('/etc/sudoers.d/95-foxpass-sudo')
+
+    assert f.exists
+    assert f.user == 'root'
+    assert f.group == 'root'
