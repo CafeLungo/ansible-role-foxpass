@@ -98,3 +98,6 @@ pip-selfcheck.json
 
 
 # End of https://www.gitignore.io/api/venv,ansible,intellij
+
+.idea
+__pycache__
