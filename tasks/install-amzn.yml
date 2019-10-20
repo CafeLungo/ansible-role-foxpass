@@ -1,0 +1,11 @@
+
+- name: Install Amzn/2018 specific packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - epel-release
+
+- name: Set OS Version (Amzn/2018)
+  set_fact:
+    os_version: "Amzn/2018.03"

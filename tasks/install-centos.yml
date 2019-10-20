@@ -1,0 +1,11 @@
+
+- name: Install CentOS specific packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - epel-release
+
+- name: Set OS Version (CentOS)
+  set_fact:
+    os_version: "{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_major_version'] }}"

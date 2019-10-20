@@ -1,0 +1,13 @@
+
+- name: Install Ubuntu specific packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-utils
+  when: ansible_facts['distribution'] == 'Ubuntu'
+
+- name: Set OS Version (Ubuntu)
+  set_fact:
+    os_version: "{{ ansible_facts['distribution'] | lower }}/{{ ansible_facts['distribution_version'] }}"
+  when: ansible_facts['distribution'] == 'Ubuntu'
