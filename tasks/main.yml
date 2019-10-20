@@ -9,7 +9,7 @@
 
 # Specifically tested on Amazon Lightsail "amazon_linux_2018_03_0_2"
 - include_tasks: install-amzn.yml
-  when: ansible_os_family == 'Amazon' and ansible_facts['distribution_major_version'] == '2018'
+  when: ansible_facts['distribution'] == 'Amazon' and ansible_facts['distribution_major_version'] == '2018'
 
 - include_tasks: install-common.yml
 

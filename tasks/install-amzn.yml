@@ -8,4 +8,4 @@
 
 - name: Set OS Version (Amzn/2018)
   set_fact:
-    os_version: "Amzn/2018.03"
+    os_version: "amzn/2018.03"
